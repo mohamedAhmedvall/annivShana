@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Calendrier de Shana 🎉</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- DESIGN IDENTIQUE À AVANT --- */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            color: #4a4a4a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeIn 2s ease;
+        }
+
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            margin: 0;
+        }
+
+        p.subtitle {
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 300;
+        }
+
+        #calendar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 15px;
+            width: 100%;
+            max-width: 900px;
+            padding-bottom: 50px;
+        }
+
+        .day-box {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            height: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #d63384;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 2px solid white;
+        }
+
+        .day-box:hover {
+            transform: translateY(-5px) scale(1.03);
+            background: white;
+            box-shadow: 0 10px 20px rgba(214, 51, 132, 0.2);
+            z-index: 10;
+        }
+
+        .day-box::before {
+            content: '🎁';
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        /* Anniversaire (26) */
+        .special-day {
+            grid-column: span 2;
+            background: linear-gradient(45deg, #FFD700, #FDB931);
+            color: white;
+            border: 2px solid #fff;
+            font-size: 2rem;
+        }
+        .special-day::before { content: '🎂'; font-size: 2.5rem; }
+        
+        /* Cases ouvertes */
+        .day-box.opened {
+            background: rgba(255, 255, 255, 0.3);
+            color: #888;
+            filter: grayscale(0.8);
+            border-color: #ddd;
+        }
+        .day-box.opened::before { content: '✨'; }
+
+        /* MODAL */
+        #modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            backdrop-filter: blur(3px);
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 80%;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            position: relative;
+            border: 4px solid #fad0c4;
+        }
+
+        .modal-content h2 { color: #d63384; font-family: 'Great Vibes', cursive; font-size: 2.5rem; margin: 0; }
+        .close-btn {
+            margin-top: 25px; padding: 12px 30px;
+            background: linear-gradient(to right, #ff9a9e, #fecfef);
+            color: white; border: none; border-radius: 50px;
+            cursor: pointer; font-size: 1rem; font-weight: bold;
+        }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 600px) { .special-day { grid-column: span 1; } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Joyeux Anniversaire Shana</h1>
+        <p class="subtitle">Le compte à rebours commence demain ! ❤️</p>
+    </header>
+
+    <div id="calendar"></div>
+
+    <div id="modal">
+        <div class="modal-content">
+            <h2 id="modal-title"></h2>
+            <p id="modal-message" style="margin-top: 20px; font-size: 1.1em;"></p>
+            <button class="close-btn" onclick="closeModal()">Merci mon amour ❤️</button>
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIGURATION DU CALENDRIER ---
+        
+        // Date de début : 9 Décembre
+        const startDay = 8; 
+        // Date de fin : 26 Décembre
+        const endDay = 26;  
+
+        // --- TES MESSAGES (Il en faut 18 : du 9 au 26) ---
+        // Le premier message correspond au 9 décembre, le deuxième au 10, etc.
+        const gifts = [
+            "J-17 : C'est parti ! Prépare-toi pour un mois magique. On commence doucement rdv cinema prado 19:20 mon bb",
+            "J-17 (Le 9) : C'est parti ! Prépare-toi pour un mois magique.",
+            "J-16 (Le 10) : Une petite douceur t'attend dans la cuisine.",
+            "J-15 (Le 11) : Bon pour un massage des pieds ce soir.",
+            "J-14 (Le 12) : Je t'aime plus qu'il y a d'étoiles dans le ciel.",
+            "J-13 (Le 13) : Soirée film de ton choix !",
+            "J-12 (Le 14) : Regarde sous ton oreiller...",
+            "J-11 (Le 15) : Tu es la plus belle chose qui me soit arrivée.",
+            "J-10 (Le 16) : Joker : Demande-moi ce que tu veux.",
+            "J-9 (Le 17) : On commande ton plat préféré ce soir ?",
+            "J-8 (Le 18) : Une chanson qui me fait penser à toi : (Lien ici)",
+            "J-7 (Le 19) : Plus qu'une semaine ! Hâte de te voir sourire.",
+            "J-6 (Le 20) : Un petit indice pour ton cadeau final : c'est brillant.",
+            "J-5 (Le 21) : Repos total pour toi aujourd'hui, je gère tout.",
+            "J-4 (Le 22) : Rappelle-toi notre premier rendez-vous...",
+            "J-3 (Le 23) : T'es prête ? Ça approche !",
+            "J-2 (Le 24) : Joyeux Noël mon cœur (en avance) ! 🎄",
+            "J-1 (Le 25) : NOËL ! Profite de ta journée, demain c'est TA fête.",
+            // Le dernier (18ème message) est pour le 26
+            "🎉 JOYEUX ANNIVERSAIRE SHANA ! 🎉<br>Je t'aime à la folie !" 
+        ];
+
+        const calendarContainer = document.getElementById('calendar');
+        const modal = document.getElementById('modal');
+        const modalMessage = document.getElementById('modal-message');
+        const modalTitle = document.getElementById('modal-title');
+
+        // Date actuelle
+        const now = new Date();
+        const currentDay = now.getDate();
+        const currentMonth = now.getMonth() + 1; // 12 pour Décembre
+
+        // Boucle du jour de début (9) au jour de fin (26)
+        for (let day = startDay; day <= endDay; day++) {
+            const box = document.createElement('div');
+            box.classList.add('day-box');
+            
+            // Si c'est le 26
+            if(day === endDay) {
+                box.classList.add('special-day');
+                box.innerHTML = day + " <br><span style='font-size:1rem'>Le Big Day</span>";
+            } else {
+                box.innerText = day;
+            }
+
+            box.addEventListener('click', () => {
+                // Vérification Mois
+                if(currentMonth !== 12) {
+                     alert("Patience, on n'est pas encore en décembre !");
+                     return;
+                }
+                
+                // Vérification Jour
+                if(day > currentDay) {
+                    alert(`Hop hop hop ! Tu ne peux pas ouvrir la case du ${day} avant la date ! 😉`);
+                    return;
+                }
+
+                // Récupération du message
+                // Calcul de l'index : Si on commence le 9, le jour 9 est l'index 0
+                let index = day - startDay;
+                let message = gifts[index] || "Message manquant !";
+
+                modalTitle.innerText = day === endDay ? "🎂 Happy Birthday !" : `Cadeau du ${day} Décembre`;
+                modalMessage.innerHTML = message;
+                modal.style.display = 'flex';
+                
+                box.classList.add('opened');
+            });
+
+            calendarContainer.appendChild(box);
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+        
+        window.onclick = function(event) {
+            if (event.target == modal) closeModal();
+        }
+    </script>
+</body>
+</html>
