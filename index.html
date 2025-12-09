@@ -231,6 +231,15 @@
         }
         .close-btn:hover { transform: scale(1.05); background: var(--primary); }
 
+        /* Style pour les images dans les messages */
+        .modal-message img {
+            width: 100%;
+            border-radius: 15px;
+            margin-top: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border: 3px solid white;
+        }
+
         @media (max-width: 600px) {
             h1 { font-size: 2.5rem; }
             .special-day { grid-column: span 1; }
@@ -254,7 +263,7 @@
         <div class="modal-content">
             <h2 id="modal-title"></h2>
             <div id="modal-message" class="modal-message"></div>
-            <button class="close-btn" onclick="closeModal()">C'est noté ❤️</button>
+            <button class="close-btn" onclick="closeModal()">Trop bien ! ❤️</button>
         </div>
     </div>
 
@@ -265,9 +274,12 @@
         
         // --- TES MESSAGES ---
         const gifts = [
-            // Index 0 correspond au startDay (le 8)
-            "J-18 : C'est parti ! Prépare-toi pour un mois magique. On commence doucement : <b>RDV Cinéma Prado à 19h20 mon bb</b> 🍿🎬", 
-            "J-17 (Le 9) : C'est parti ! Prépare-toi pour un mois magique.",
+            // Index 0 = Le 8 Décembre
+            "J-18 (Hier) : C'est parti ! Prépare-toi pour un mois magique. On commence doucement : <b>RDV Cinéma Prado à 19h20 mon bb</b> 🍿🎬", 
+            
+            // Index 1 = Le 9 Décembre (Aujourd'hui !) - MESSAGE MODIFIÉ AVEC PHOTO
+            "J-17 (Le 9) : Prépare tes gants et ton bonnet... ce soir c'esssttt <b>patinoire</b> ! ⛸️❄️<br><img src='https://i0.wp.com/tarpin-bien.com/wp-content/uploads/2015/02/I86A2320.jpg?ssl=1' alt='Patinoire'>",
+            
             "J-16 (Le 10) : Une petite douceur t'attend dans la cuisine 🍫.",
             "J-15 (Le 11) : Bon pour un massage des pieds ce soir 💆‍♀️.",
             "J-14 (Le 12) : Je t'aime plus qu'il y a d'étoiles dans le ciel ✨.",
