@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Le Calendrier de Shana 🎉</title>
+    <title>L'Univers de Shana ✨</title>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
         :root {
@@ -13,274 +14,276 @@
             --secondary: #ff758c;
             --accent: #FFD700;
             --text: #4a4a4a;
+            --glass: rgba(255, 255, 255, 0.7);
         }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fad0c4, #fbc2eb);
+            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #a18cd1, #fbc2eb);
             background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite; /* Fond qui change doucement */
+            animation: gradientBG 15s ease infinite;
             min-height: 100vh;
             margin: 0;
             padding: 20px;
             color: var(--text);
             overflow-x: hidden;
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>✨</text></svg>") 16 0, auto; /* Curseur personnalisé */
         }
 
-        /* Animation du fond */
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
-        /* --- BULLES FLOTTANTES EN FOND --- */
-        .circles {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            overflow: hidden;
-            z-index: -1;
-        }
-        .circles li {
+        /* --- TRAINÉE DE SOURIS --- */
+        .trail {
             position: absolute;
-            display: block;
-            list-style: none;
-            width: 20px; height: 20px;
-            background: rgba(255, 255, 255, 0.4);
-            animation: animate 25s linear infinite;
-            bottom: -150px;
+            height: 10px; width: 10px;
             border-radius: 50%;
+            background: #fff;
+            pointer-events: none;
+            z-index: 9999;
+            animation: fadeTrail 1s linear forwards;
+            box-shadow: 0 0 10px #fff, 0 0 20px var(--primary);
         }
-        /* Positions aléatoires des bulles */
-        .circles li:nth-child(1){ left: 25%; width: 80px; height: 80px; animation-delay: 0s; }
-        .circles li:nth-child(2){ left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; }
-        .circles li:nth-child(3){ left: 70%; width: 20px; height: 20px; animation-delay: 4s; }
-        .circles li:nth-child(4){ left: 40%; width: 60px; height: 60px; animation-delay: 0s; animation-duration: 18s; }
-        .circles li:nth-child(5){ left: 65%; width: 20px; height: 20px; animation-delay: 0s; }
-        .circles li:nth-child(6){ left: 75%; width: 110px; height: 110px; animation-delay: 3s; }
-        .circles li:nth-child(7){ left: 35%; width: 150px; height: 150px; animation-delay: 7s; }
-        .circles li:nth-child(8){ left: 50%; width: 25px; height: 25px; animation-delay: 15s; animation-duration: 45s; }
-        .circles li:nth-child(9){ left: 20%; width: 15px; height: 15px; animation-delay: 2s; animation-duration: 35s; }
-        .circles li:nth-child(10){ left: 85%; width: 150px; height: 150px; animation-delay: 0s; animation-duration: 11s; }
+        @keyframes fadeTrail { to { opacity: 0; transform: scale(0); } }
 
-        @keyframes animate {
-            0%{ transform: translateY(0) rotate(0deg); opacity: 1; border-radius: 0; }
-            100%{ transform: translateY(-1000px) rotate(720deg); opacity: 0; border-radius: 50%; }
-        }
-
-        header {
-            text-align: center;
-            margin: 40px 0;
-            position: relative;
-            z-index: 2;
+        /* --- EFFETS ARRIÈRE-PLAN --- */
+        .snowflake { position: fixed; top: -10px; color: white; user-select: none; z-index: 1; pointer-events: none; animation: fall linear infinite; }
+        @keyframes fall { to { transform: translateY(100vh) rotate(360deg); opacity: 0.3; } }
+        
+        .santa-container { position: fixed; top: 10%; right: -300px; z-index: 5; animation: flySanta 25s linear infinite; pointer-events: none; }
+        .santa-container img { width: 150px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.2)); }
+        @keyframes flySanta { 
+            0% { right: -300px; transform: translateY(0); } 
+            100% { right: 105%; transform: translateY(20px); } 
         }
 
-        h1 {
-            font-family: 'Pacifico', cursive;
-            font-size: 3.5rem;
-            color: #fff;
-            text-shadow: 3px 3px 0px rgba(0,0,0,0.1);
-            margin: 0;
-            transform: rotate(-3deg); /* Petite rotation fun */
+        header { text-align: center; margin: 20px 0; position: relative; z-index: 10; }
+        h1 { font-family: 'Pacifico', cursive; font-size: 3.5rem; color: #fff; text-shadow: 3px 3px 0px rgba(0,0,0,0.1); margin: 0; transform: rotate(-3deg); }
+        
+        /* --- COMPTE À REBOURS --- */
+        #countdown-container {
+            display: flex; justify-content: center; gap: 15px; margin: 20px 0;
         }
-
-        p.subtitle {
-            background: rgba(255,255,255,0.8);
-            display: inline-block;
-            padding: 5px 20px;
-            border-radius: 20px;
-            color: var(--secondary);
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin-top: 10px;
+        .time-box {
+            background: var(--glass); padding: 10px 15px; border-radius: 10px;
+            text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            min-width: 60px;
         }
+        .time-val { font-size: 1.5rem; font-weight: 800; color: var(--secondary); display: block; }
+        .time-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
 
+        /* --- FLIP CARD PHOTO (Interactif) --- */
+        .scene {
+            width: 300px; height: 380px; margin: 30px auto; perspective: 1000px; z-index: 20; position: relative;
+        }
+        .card {
+            width: 100%; height: 100%; position: relative; transition: transform 0.8s; transform-style: preserve-3d; cursor: pointer;
+        }
+        .card.is-flipped { transform: rotateY(180deg); }
+        .card__face {
+            position: absolute; width: 100%; height: 100%;
+            backface-visibility: hidden; border-radius: 10px;
+            background: white; padding: 15px 15px 50px 15px; /* Look Polaroid */
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            display: flex; align-items: center; justify-content: center; box-sizing: border-box;
+        }
+        .card__face--front img { width: 100%; height: 100%; object-fit: cover; border: 1px solid #eee; }
+        .card__face--back { transform: rotateY(180deg); background: #fff5f8; flex-direction: column; text-align: center; padding: 20px; }
+        .handwritten { font-family: 'Pacifico', cursive; font-size: 1.5rem; color: var(--secondary); transform: rotate(-5deg); margin-top: 10px; }
+
+        /* --- CALENDRIER --- */
         #calendar {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-            gap: 20px;
-            width: 100%;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding-bottom: 50px;
-            perspective: 1000px; /* Pour l'effet 3D */
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 20px; width: 100%; max-width: 1000px; margin: 0 auto; padding-bottom: 100px;
+            position: relative; z-index: 10;
         }
-
-        /* --- STYLE DES CADEAUX --- */
         .day-box {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            height: 120px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--secondary);
-            cursor: pointer;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            border: 2px solid white;
-            position: relative;
-            overflow: hidden;
-            animation: popIn 0.5s ease backwards;
+            background: var(--glass); backdrop-filter: blur(10px); border-radius: 15px;
+            height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            font-size: 2rem; font-weight: 800; color: var(--secondary); cursor: pointer;
+            transition: all 0.3s; box-shadow: 0 10px 20px rgba(0,0,0,0.05); border: 2px solid rgba(255,255,255,0.5);
+            position: relative; overflow: hidden;
         }
-
-        /* Le ruban vertical */
-        .day-box::before {
-            content: '';
-            position: absolute;
-            width: 15px;
-            height: 100%;
-            background: var(--primary);
-            opacity: 0.3;
-        }
-        /* Le ruban horizontal */
-        .day-box::after {
-            content: '';
-            position: absolute;
-            height: 15px;
-            width: 100%;
-            background: var(--primary);
-            opacity: 0.3;
-        }
-
-        /* Le numéro du jour par dessus les rubans */
-        .day-number {
-            z-index: 2;
-            background: white;
-            padding: 5px 10px;
-            border-radius: 50%;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            font-size: 1.5rem;
-        }
-
-        .day-box:hover {
-            transform: translateY(-10px) rotate(2deg) scale(1.05);
-            box-shadow: 0 15px 30px rgba(255, 117, 140, 0.4);
-            border-color: var(--primary);
-        }
-
-        /* Apparition progressive */
-        @keyframes popIn {
-            from { opacity: 0; transform: scale(0.5) translateY(50px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        /* SPECIAL DAY (26) */
-        .special-day {
-            grid-column: span 2;
-            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-            color: white;
-            border: 4px solid #fff;
-        }
+        .day-box:hover { transform: translateY(-10px) scale(1.05); border-color: white; box-shadow: 0 15px 30px rgba(255,117,140,0.3); }
+        .day-number { z-index: 2; background: white; width: 40px; height: 40px; line-height: 40px; text-align: center; border-radius: 50%; font-size: 1.2rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .special-day { background: linear-gradient(135deg, #f6d365, #fda085); grid-column: span 2; border: 4px solid white; color: white; }
         .special-day .day-number { color: #fda085; }
-        .special-day::before, .special-day::after { background: white; opacity: 0.5; }
+        .day-box.opened { filter: grayscale(1); opacity: 0.8; transform: scale(0.95); cursor: default; }
+        .day-box.opened::after { content: '❤️'; position: absolute; font-size: 3rem; opacity: 0.3; top: 50%; left: 50%; transform: translate(-50%, -50%); }
 
-        /* CASE OUVERTE */
-        .day-box.opened {
-            background: rgba(255,255,255,0.4);
-            transform: scale(0.95);
-            filter: grayscale(1);
-            cursor: default;
+        /* --- BOUTONS FLOTTANTS (Musique & Love) --- */
+        .floating-controls {
+            position: fixed; bottom: 20px; left: 20px; z-index: 1000;
+            display: flex; align-items: center; gap: 10px;
+            background: white; padding: 10px 20px; border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
         }
-        .day-box.opened .day-number::after { content: '✔️'; font-size: 1rem; margin-left: 5px; }
+        .floating-controls:hover { transform: scale(1.05); }
+        .music-btn { border: none; background: none; font-size: 1.5rem; color: var(--secondary); cursor: pointer; }
+        
+        .love-fab {
+            position: fixed; bottom: 20px; right: 20px; z-index: 1000;
+            width: 60px; height: 60px; border-radius: 50%;
+            background: linear-gradient(45deg, #ff758c, #ff7eb3);
+            color: white; border: none; font-size: 1.8rem;
+            box-shadow: 0 5px 20px rgba(255, 117, 140, 0.6);
+            cursor: pointer; display: flex; justify-content: center; align-items: center;
+            transition: transform 0.2s; animation: pulse 2s infinite;
+        }
+        .love-fab:active { transform: scale(0.9); }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 117, 140, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(255, 117, 140, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 117, 140, 0); } }
+
+        /* Coeurs volants */
+        .flying-heart {
+            position: fixed; bottom: 80px; right: 40px;
+            font-size: 2rem; pointer-events: none; z-index: 1001;
+            animation: floatUp 2s ease-out forwards;
+        }
+        @keyframes floatUp { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-200px) scale(1.5); opacity: 0; } }
 
         /* --- MODAL --- */
-        #modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(5px);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 40px;
-            border-radius: 30px;
-            max-width: 500px;
-            width: 85%;
-            text-align: center;
-            position: relative;
-            transform: scale(0.8);
-            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            border: 5px solid #fad0c4;
-        }
-
-        @keyframes modalPop {
-            to { transform: scale(1); }
-        }
-
-        .modal-content h2 { color: var(--secondary); font-family: 'Pacifico', cursive; font-size: 2.2rem; margin-top: 0; }
-        .modal-message { font-size: 1.2rem; line-height: 1.6; color: #555; }
+        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-content { background: white; padding: 40px; border-radius: 30px; width: 90%; max-width: 500px; text-align: center; animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; }
+        .modal-content img { width: 100%; border-radius: 15px; margin-top: 15px; }
+        .close-btn { margin-top: 20px; padding: 12px 30px; background: var(--secondary); color: white; border: none; border-radius: 25px; cursor: pointer; font-size: 1.1rem; }
         
-        .close-btn {
-            margin-top: 25px; padding: 15px 40px;
-            background: var(--secondary);
-            color: white; border: none; border-radius: 50px;
-            cursor: pointer; font-size: 1.1rem; font-weight: bold;
-            transition: transform 0.2s;
-            box-shadow: 0 5px 15px rgba(255, 117, 140, 0.4);
-        }
-        .close-btn:hover { transform: scale(1.05); background: var(--primary); }
-
-        /* Style pour les images dans les messages */
-        .modal-message img {
-            width: 100%;
-            border-radius: 15px;
-            margin-top: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            border: 3px solid white;
-        }
-
-        @media (max-width: 600px) {
-            h1 { font-size: 2.5rem; }
-            .special-day { grid-column: span 1; }
-        }
+        @media (max-width: 600px) { h1 { font-size: 2.2rem; } .special-day { grid-column: span 1; } }
     </style>
 </head>
 <body>
 
-    <ul class="circles">
-        <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
-    </ul>
+    <div class="santa-container"><img src="https://cdn-icons-png.flaticon.com/512/744/744546.png" alt="Santa"></div>
 
     <header>
         <h1>Joyeux Anniversaire Shana</h1>
-        <p class="subtitle">✨ 22 Surprises pour tes 22 ans ✨</p>
+        
+        <div id="countdown-container">
+            <div class="time-box"><span class="time-val" id="days">00</span><span class="time-label">Jours</span></div>
+            <div class="time-box"><span class="time-val" id="hours">00</span><span class="time-label">Heures</span></div>
+            <div class="time-box"><span class="time-val" id="mins">00</span><span class="time-label">Min</span></div>
+            <div class="time-box"><span class="time-val" id="secs">00</span><span class="time-label">Sec</span></div>
+        </div>
     </header>
 
+    <div class="scene">
+        <div class="card" onclick="this.classList.toggle('is-flipped')">
+            <div class="card__face card__face--front">
+                <img src="https://via.placeholder.com/300x350/ff7eb3/ffffff?text=Clique+Moi+!" alt="Shana">
+            </div>
+            <div class="card__face card__face--back">
+                <div style="font-size: 3rem;">👸🏽✨</div>
+                <p>À la plus belle femme du monde,</p>
+                <p>Merci d'illuminer ma vie chaque jour.</p>
+                <p class="handwritten">Je t'aime ❤️</p>
+                <span style="font-size: 0.8rem; color: #999; margin-top: auto;">(Clique pour retourner)</span>
+            </div>
+        </div>
+    </div>
+
     <div id="calendar"></div>
+
+    <div class="floating-controls">
+        <button class="music-btn" id="music-toggle" onclick="toggleMusic()">
+            <i class="fas fa-play"></i> Musique
+        </button>
+        <audio id="bg-music" loop>
+            <source src="C:\Users\ahmedv_m\Downloads\Richard Sanderson Reality (La boum)  Archive INA.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <button class="love-fab" onclick="spawnHeart()">
+        <i class="fas fa-heart"></i>
+    </button>
 
     <div id="modal">
         <div class="modal-content">
             <h2 id="modal-title"></h2>
-            <div id="modal-message" class="modal-message"></div>
-            <button class="close-btn" onclick="closeModal()">Trop bien ! ❤️</button>
+            <div id="modal-message"></div>
+            <button class="close-btn" onclick="document.getElementById('modal').style.display='none'">Super ! ❤️</button>
         </div>
     </div>
 
     <script>
-        // --- CONFIGURATION ---
-        const startDay = 8; // Commence le 8
-        const endDay = 26;  // Termine le 26
-        
-        // --- TES MESSAGES ---
+        // --- 1. NEIGE ET TRAINÉE SOURIS ---
+        function createSnow() {
+            for (let i = 0; i < 50; i++) {
+                const snow = document.createElement('div');
+                snow.className = 'snowflake';
+                snow.innerHTML = '❄';
+                snow.style.left = Math.random() * 100 + 'vw';
+                snow.style.animationDuration = Math.random() * 3 + 2 + 's';
+                snow.style.fontSize = Math.random() * 10 + 10 + 'px';
+                document.body.appendChild(snow);
+            }
+        }
+        createSnow();
+
+        document.addEventListener('mousemove', function(e) {
+            const trail = document.createElement('div');
+            trail.className = 'trail';
+            trail.style.left = e.pageX + 'px';
+            trail.style.top = e.pageY + 'px';
+            document.body.appendChild(trail);
+            setTimeout(() => trail.remove(), 1000);
+        });
+
+        // --- 2. COMPTE À REBOURS ---
+        function updateCountdown() {
+            const birthday = new Date('December 26, 2025 00:00:00').getTime(); // 👈 Vérifie l'année
+            const now = new Date().getTime();
+            const diff = birthday - now;
+
+            if (diff > 0) {
+                document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+                document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById('mins').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById('secs').innerText = Math.floor((diff % (1000 * 60)) / 1000);
+            } else {
+                document.getElementById('countdown-container').innerHTML = "<h2>🎉 C'est le JOUR J ! 🎉</h2>";
+            }
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // --- 3. MUSIQUE ---
+        const audio = document.getElementById('bg-music');
+        const musicBtn = document.getElementById('music-toggle');
+        let isPlaying = false;
+
+        function toggleMusic() {
+            if (isPlaying) {
+                audio.pause();
+                musicBtn.innerHTML = '<i class="fas fa-play"></i> Musique';
+            } else {
+                audio.play();
+                musicBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // --- 4. LOVE SHOWER ---
+        function spawnHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('flying-heart');
+            heart.innerHTML = ['❤️', '💖', '💝', '💕'][Math.floor(Math.random() * 4)];
+            heart.style.left = (Math.random() * 100) + 'vw'; // Random horizontal position
+            // Ou si tu veux que ça parte du bouton :
+            // heart.style.right = '40px'; 
+            
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 2000);
+        }
+
+        // --- 5. LOGIQUE CALENDRIER ---
+        const startDay = 8; const endDay = 26; 
         const gifts = [
-            // Index 0 = Le 8 Décembre
-            "J-18 (Hier) : C'est parti ! Prépare-toi pour un mois magique. On commence doucement : <b>RDV Cinéma Prado à 19h20 mon bb</b> 🍿🎬", 
-            
-            // Index 1 = Le 9 Décembre (Aujourd'hui !) - MESSAGE MODIFIÉ AVEC PHOTO
-            "J-17 (Le 9) : Prépare tes gants et ton bonnet... ce soir c'esssttt <b>patinoire</b> ! ⛸️❄️<br><img src='https://i0.wp.com/tarpin-bien.com/wp-content/uploads/2015/02/I86A2320.jpg?ssl=1' alt='Patinoire'>",
-            
-            "J-16 (Le 10) : toutoutou laisse moi cook, ca arrive.",
+            "J-18 (Hier) : C'est parti ! <b>RDV Cinéma Prado à 19h20 mon bb</b> 🍿🎬", 
+            "J-17 (Le 9) : Ce soir c'est <b>patinoire</b> ! ⛸️❄️<br><img src='https://i0.wp.com/tarpin-bien.com/wp-content/uploads/2015/02/I86A2320.jpg?ssl=1' alt='Patinoire'>",
+            "J-16 (Le 10) : Ce soir c'est nono qui est gateee <b>! pull pour nono</b>   <br><img src='nono.png' alt='NONO'>",
             "J-15 (Le 11) : Bon pour un massage des pieds ce soir 💆‍♀️.",
             "J-14 (Le 12) : Je t'aime plus qu'il y a d'étoiles dans le ciel ✨.",
             "J-13 (Le 13) : Soirée film de ton choix ! 🎥",
@@ -296,77 +299,37 @@
             "J-3 (Le 23) : T'es prête ? Ça approche ! ⏳",
             "J-2 (Le 24) : Joyeux Noël mon cœur (en avance) ! 🎄",
             "J-1 (Le 25) : NOËL ! Profite de ta journée, demain c'est TA fête 🎅.",
-            // Le dernier (Pour le 26)
             "🎉 <b>JOYEUX ANNIVERSAIRE SHANA !</b> 🎉<br>Je t'aime à la folie !" 
         ];
 
-        const calendarContainer = document.getElementById('calendar');
+        const container = document.getElementById('calendar');
         const modal = document.getElementById('modal');
-        const modalMessage = document.getElementById('modal-message');
-        const modalTitle = document.getElementById('modal-title');
+        const nowDay = new Date().getDate();
+        const nowMonth = new Date().getMonth() + 1;
 
-        const now = new Date();
-        const currentDay = now.getDate();
-        const currentMonth = now.getMonth() + 1;
-
-        // Fonction pour lancer les confettis
-        function launchConfetti() {
-            var duration = 3 * 1000;
-            var animationEnd = Date.now() + duration;
-            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1100 };
-
-            function random(min, max) { return Math.random() * (max - min) + min; }
-
-            var interval = setInterval(function() {
-                var timeLeft = animationEnd - Date.now();
-                if (timeLeft <= 0) return clearInterval(interval);
-                var particleCount = 50 * (timeLeft / duration);
-                confetti(Object.assign({}, defaults, { particleCount, origin: { x: random(0.1, 0.3), y: Math.random() - 0.2 } }));
-                confetti(Object.assign({}, defaults, { particleCount, origin: { x: random(0.7, 0.9), y: Math.random() - 0.2 } }));
-            }, 250);
-        }
-
-        // Création de la grille
         for (let day = startDay; day <= endDay; day++) {
             const box = document.createElement('div');
-            box.classList.add('day-box');
-            // Délai d'animation pour l'effet "cascade" à l'ouverture du site
-            box.style.animationDelay = `${(day - startDay) * 0.1}s`; 
-            
-            let content = `<span class="day-number">${day}</span>`;
-            if(day === endDay) content = `<span class="day-number">🎂 ${day}</span>`;
+            box.className = 'day-box';
+            let content = `<div class="day-number">${day}</div>`;
+            if(day === endDay) { content = `<div class="day-number">🎂</div>`; box.classList.add('special-day'); }
             
             box.innerHTML = content;
-            if(day === endDay) box.classList.add('special-day');
-
+            
             box.addEventListener('click', () => {
-                if(currentMonth !== 12) { alert("Pas encore décembre ! ❄️"); return; }
-                if(day > currentDay) { alert(`Hé non ! Reviens le ${day} ! 😜`); return; }
+                // TESTS : commenter ces deux lignes pour tout ouvrir
+                if(nowMonth !== 12) { alert("Attends Décembre ! ❄️"); return; }
+                if(day > nowDay) { alert(`Patience... C'est pour le ${day} ! 🤫`); return; }
 
-                // Ouvrir le cadeau
-                let index = day - startDay;
-                let message = gifts[index] || "Surprise !";
-                
-                modalTitle.innerText = (day === endDay) ? "Joyeux Anniversaire !" : `Surprise du ${day}`;
-                modalMessage.innerHTML = message;
+                document.getElementById('modal-title').innerText = (day === endDay) ? "Joyeux Anniversaire !" : `Surprise du ${day}`;
+                document.getElementById('modal-message').innerHTML = gifts[day - startDay];
                 modal.style.display = 'flex';
                 box.classList.add('opened');
-
-                // Lancer les confettis !
-                launchConfetti();
+                
+                // Feu d'artifice
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
             });
-
-            calendarContainer.appendChild(box);
-        }
-
-        function closeModal() {
-            modal.style.display = 'none';
-        }
-        window.onclick = function(event) {
-            if (event.target == modal) closeModal();
+            container.appendChild(box);
         }
     </script>
 </body>
 </html>
-
-
