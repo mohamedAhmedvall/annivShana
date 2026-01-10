@@ -1,0 +1,113 @@
+/**
+ * Reusable Animations
+ * All keyframe animations centralized for better maintainability
+ */
+
+/* Background gradient animation */
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Mouse trail fade */
+@keyframes fadeTrail {
+  to {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+/* Snowflake falling */
+@keyframes fall {
+  to {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0.3;
+  }
+}
+
+/* Santa flying across screen */
+@keyframes flySanta {
+  0% {
+    right: -300px;
+    transform: translateY(0);
+  }
+  100% {
+    right: 105%;
+    transform: translateY(20px);
+  }
+}
+
+/* Pulse effect for love button */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 117, 140, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 20px rgba(255, 117, 140, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 117, 140, 0);
+  }
+}
+
+/* Flying heart animation */
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-200px) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Modal pop-in */
+@keyframes popIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Bounce effect */
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Rotate */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Fade in */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

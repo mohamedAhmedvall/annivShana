@@ -1,0 +1,61 @@
+/**
+ * CSS Custom Properties (Variables)
+ * Centralized theme configuration for easy maintenance
+ */
+
+:root {
+  /* Brand Colors */
+  --primary: #ff7eb3;
+  --secondary: #ff758c;
+  --accent: #ffd700;
+  --text: #4a4a4a;
+  --text-light: #999;
+
+  /* Glass Morphism */
+  --glass: rgba(255, 255, 255, 0.7);
+  --glass-strong: rgba(255, 255, 255, 0.9);
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(-45deg, #ff9a9e, #fad0c4, #a18cd1, #fbc2eb);
+  --gradient-special: linear-gradient(135deg, #f6d365, #fda085);
+  --gradient-button: linear-gradient(45deg, #ff758c, #ff7eb3);
+
+  /* Shadows */
+  --shadow-sm: 0 4px 10px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 10px 20px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 15px 35px rgba(0, 0, 0, 0.2);
+  --shadow-colored: 0 5px 20px rgba(255, 117, 140, 0.6);
+
+  /* Spacing */
+  --spacing-xs: 5px;
+  --spacing-sm: 10px;
+  --spacing-md: 20px;
+  --spacing-lg: 40px;
+  --spacing-xl: 60px;
+
+  /* Border Radius */
+  --radius-sm: 10px;
+  --radius-md: 15px;
+  --radius-lg: 30px;
+  --radius-full: 50px;
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.8s ease;
+
+  /* Typography */
+  --font-primary: 'Poppins', sans-serif;
+  --font-handwriting: 'Pacifico', cursive;
+
+  /* Z-Index Stack */
+  --z-background: 1;
+  --z-snowflake: 1;
+  --z-santa: 5;
+  --z-content: 10;
+  --z-card: 20;
+  --z-controls: 1000;
+  --z-hearts: 1001;
+  --z-modal: 2000;
+  --z-trail: 9999;
+}

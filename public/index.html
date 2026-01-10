@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Site d'anniversaire interactif pour Shana" />
+    <meta name="theme-color" content="#ff7eb3" />
+
+    <title>L'Univers de Shana ✨</title>
+
+    <!-- Preload critical resources -->
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+      crossorigin
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    />
+
+    <!-- Font Awesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/src/css/main.css" />
+
+    <!-- Module Script -->
+    <script type="module" src="/src/js/main.js" defer></script>
+  </head>
+
+  <body>
+    <!-- Santa Animation -->
+    <div class="santa-container" aria-hidden="true"></div>
+
+    <!-- Header -->
+    <header>
+      <h1>Joyeux Anniversaire Shana</h1>
+
+      <!-- Countdown Timer -->
+      <div id="countdown-container" role="timer" aria-live="polite">
+        <div class="time-box">
+          <span class="time-val" id="days" aria-label="Jours">00</span>
+          <span class="time-label">Jours</span>
+        </div>
+        <div class="time-box">
+          <span class="time-val" id="hours" aria-label="Heures">00</span>
+          <span class="time-label">Heures</span>
+        </div>
+        <div class="time-box">
+          <span class="time-val" id="mins" aria-label="Minutes">00</span>
+          <span class="time-label">Min</span>
+        </div>
+        <div class="time-box">
+          <span class="time-val" id="secs" aria-label="Secondes">00</span>
+          <span class="time-label">Sec</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 3D Flip Card -->
+    <section class="scene" aria-label="Carte d'anniversaire">
+      <div
+        class="card"
+        role="button"
+        tabindex="0"
+        aria-label="Retourner la carte"
+      >
+        <div class="card__face card__face--front">
+          <img
+            src="/src/assets/images/IMG_1041.jpeg"
+            alt="Photo de Shana"
+            loading="eager"
+          />
+        </div>
+        <div class="card__face card__face--back">
+          <div style="font-size: 3rem" aria-hidden="true">👸🏽✨</div>
+          <p>À la plus belle femme du monde,</p>
+          <p>Merci d'illuminer ma vie chaque jour.</p>
+          <p class="handwritten">Je t'aime ❤️</p>
+          <span style="font-size: 0.8rem; color: #999; margin-top: auto">
+            (Clique pour retourner)
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Advent Calendar -->
+    <main>
+      <div
+        id="calendar"
+        role="list"
+        aria-label="Calendrier de l'Avent"
+      ></div>
+    </main>
+
+    <!-- Floating Music Controls -->
+    <aside class="floating-controls" aria-label="Contrôles musicaux">
+      <button
+        class="music-btn"
+        id="music-toggle"
+        aria-label="Activer la musique"
+      >
+        <i class="fas fa-play" aria-hidden="true"></i>
+        <span>Musique</span>
+      </button>
+      <audio id="bg-music" loop preload="none">
+        <source
+          src="/src/assets/audio/background-music.mp3"
+          type="audio/mpeg"
+        />
+        Votre navigateur ne supporte pas l'audio.
+      </audio>
+    </aside>
+
+    <!-- Love Button -->
+    <button
+      class="love-fab"
+      id="love-fab"
+      aria-label="Envoyer de l'amour"
+    >
+      <i class="fas fa-heart" aria-hidden="true"></i>
+    </button>
+
+    <!-- Modal -->
+    <div
+      id="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+      aria-describedby="modal-message"
+    >
+      <div class="modal-content">
+        <h2 id="modal-title"></h2>
+        <div id="modal-message"></div>
+        <button class="close-btn" aria-label="Fermer">Super ! ❤️</button>
+      </div>
+    </div>
+  </body>
+</html>
