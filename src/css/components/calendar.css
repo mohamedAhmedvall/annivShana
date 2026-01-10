@@ -1,0 +1,121 @@
+/**
+ * Advent Calendar Component
+ */
+
+#calendar {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: var(--spacing-md);
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding-bottom: 100px;
+  position: relative;
+  z-index: var(--z-content);
+}
+
+.day-box {
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-md);
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--secondary);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-md);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.day-box:hover {
+  transform: translateY(-10px) scale(1.05);
+  border-color: white;
+  box-shadow: 0 15px 30px rgba(255, 117, 140, 0.3);
+}
+
+.day-box:active {
+  transform: translateY(-5px) scale(1.02);
+}
+
+.day-number {
+  z-index: 2;
+  background: white;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.special-day {
+  background: var(--gradient-special);
+  grid-column: span 2;
+  border: 4px solid white;
+  color: white;
+  height: 150px;
+}
+
+.special-day .day-number {
+  color: #fda085;
+  font-size: 2rem;
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+}
+
+.day-box.opened {
+  filter: grayscale(1);
+  opacity: 0.8;
+  transform: scale(0.95);
+  cursor: default;
+  pointer-events: none;
+}
+
+.day-box.opened::after {
+  content: '❤️';
+  position: absolute;
+  font-size: 3rem;
+  opacity: 0.3;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  #calendar {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 15px;
+  }
+
+  .day-box {
+    height: 100px;
+  }
+
+  .special-day {
+    grid-column: span 1;
+    height: 100px;
+  }
+
+  .special-day .day-number {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .special-day {
+    grid-column: span 1;
+  }
+}
